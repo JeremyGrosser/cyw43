@@ -1,3 +1,9 @@
+/*
+ *  Copyright (C) 2022 Jeremy Grosser <jeremy@synack.me>
+ *
+ *  SPDX-License-Identifier: BSD-3-Clause
+ *
+ */
 #ifndef CYW43_ARCH_H
 #define CYW43_ARCH_H
 #include <assert.h>

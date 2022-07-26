@@ -1,3 +1,12 @@
+/*
+ * Mostly stolen from pico-sdk, so we'll keep their copyright for now.
+ */
+
+/*
+ * Copyright (c) 2022 Raspberry Pi (Trading) Ltd.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
 #ifndef CYW43_CONFIGPORT_H
 #define CYW43_CONFIGPORT_H
 
