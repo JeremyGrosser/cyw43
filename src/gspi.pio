@@ -1,0 +1,22 @@
+.program gspi_transmit
+.side_set 1
+.wrap_target
+reload:
+    mov x, y                side 0
+write_x_bits:
+    out pins, 1             side 0
+    jmp x--, write_x_bits   side 1
+    jmp !osre, reload       side 0
+    irq wait 0              side 0 ; The SM sets IRQ 0 and blocks once all words in the TX FIFO have been clocked out
+.wrap
+
+.program gspi_receive
+.side_set 1
+.wrap_target
+    mov x, y                side 0
+read_x_bits:
+    in pins, 1              side 0
+    jmp x--, read_x_bits    side 1
+    nop                     side 0 [15]
+    irq wait 0              side 0 ; Every time IRQ 0 is cleared, the SM receives another 32 bits
+.wrap

@@ -1,0 +1,23 @@
+name = "cyw43"
+description = "CYW43439 wireless driver"
+version = "0.1.0-dev"
+
+authors = ["Jeremy Grosser"]
+maintainers = ["Jeremy Grosser <jeremy@synack.me>"]
+maintainers-logins = ["JeremyGrosser"]
+
+[[depends-on]]
+rp2040_hal = "^1.6.0"
+
+#[[actions]]
+#type = "pre-build"
+#command = ["pioasm", "-o", "ada", "-p", "GSPI_PIO", "src/gspi.pio", "src/gspi_pio.ads"]
+
+[[depends-on]]
+ipstack = "~0.1.0"
+
+[configuration.values]
+ipstack.Support_Target = "rp2040"
+
+[[pins]]
+ipstack = { url='https://github.com/JeremyGrosser/ipstack.git' }
