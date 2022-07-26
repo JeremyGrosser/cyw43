@@ -9,6 +9,7 @@ project Cyw43 is
    for Source_Dirs use
       ("third_party/cyw43-driver/src",
        "third_party/cyw43-driver/firmware",
+       "third_party/cyw43-driver",
        "src/",
        "config/");
    for Object_Dir use "obj/" & Cyw43_Config.Build_Profile;
@@ -27,7 +28,7 @@ project Cyw43 is
 
       for Default_Switches ("C") use (
       --   "-Wall",
-         "-I" & Project'Project_Dir & "third_party/cyw43-driver",
+      --   "-I" & Project'Project_Dir & "third_party/cyw43-driver",
          "-g"
       );
    end Compiler;
