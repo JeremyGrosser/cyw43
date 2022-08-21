@@ -3,7 +3,6 @@
 --
 --  SPDX-License-Identifier: BSD-3-Clause
 --
-with System;
 with RP.Flash;
 with GSPI.Registers;
 with AIP;
@@ -161,5 +160,79 @@ package body CYW43 is
 
    procedure Thread_Lock_Check
    is null;
+
+   function SPI_Init
+      (Self : System.Address)
+      return Integer
+   is (-1);
+
+   procedure SPI_GPIO_Setup is null;
+
+   procedure SPI_Reset is null;
+
+   procedure SPI_Deinit
+      (Self : System.Address)
+   is null;
+
+   function SDIO_Transfer
+      (Cmd  : UInt32;
+       Arg  : UInt32;
+       Resp : access UInt32_Array)
+       return Integer
+   is (-1);
+
+   function SDIO_Transfer_Cmd53
+      (Write      : Interfaces.C.int;
+       Block_Size : UInt32;
+       Arg        : UInt32;
+       Len        : Interfaces.C.size_t;
+       Buf        : UInt8_Array)
+       return Integer
+   is (-1);
+
+   function Storage_Read_Blocks
+      (Dest       : access UInt8_Array;
+       Block_Num  : UInt32;
+       Num_Blocks : UInt32)
+       return UInt32
+   is (0);
+
+   function Pbuf_Copy_Partial
+      (P       : access constant Pbuf;
+       Dataptr : System.Address;
+       Len     : UInt16;
+       Offset  : UInt16)
+       return UInt16
+   is (0);
+
+   function Read_Reg_U16
+      (Self : System.Address;
+       Fn   : UInt32;
+       Reg  : UInt32)
+       return Integer
+   is (-1);
+
+   function Write_Reg_U16
+      (Self : System.Address;
+       Fn   : UInt32;
+       Reg  : UInt32;
+       Val  : UInt16)
+       return Integer
+   is (-1);
+
+   function Read_Reg_U32_Swap
+      (Self : System.Address;
+       Fn   : UInt32;
+       Reg  : UInt32)
+       return UInt32
+   is (0);
+
+   function Write_Reg_U32_Swap
+      (Self : System.Address;
+       Fn   : UInt32;
+       Reg  : UInt32;
+       Val  : UInt32)
+       return Integer
+   is (-1);
 
 end CYW43;

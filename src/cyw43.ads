@@ -3,7 +3,9 @@
 --
 --  SPDX-License-Identifier: BSD-3-Clause
 --
+with Interfaces.C;
 with HAL; use HAL;
+with System;
 with AIP.NIF;
 with RP.Timer;
 with RP.GPIO;
@@ -92,5 +94,83 @@ package CYW43 is
 
    procedure Thread_Lock_Check
       with Export, Convention => C, External_Name => "cyw43_thread_lock_check";
+
+   function SPI_Init
+      (Self : System.Address)
+      return Integer
+   with Export, Convention => C, External_Name => "cyw43_spi_init";
+
+   procedure SPI_GPIO_Setup
+      with Export, Convention => C, External_Name => "cyw43_spi_gpio_setup";
+
+   procedure SPI_Reset
+      with Export, Convention => C, External_Name => "cyw43_spi_reset";
+
+   procedure SPI_Deinit
+      (Self : System.Address)
+   with Export, Convention => C, External_Name => "cyw43_spi_deinit";
+
+   function SDIO_Transfer
+      (Cmd  : UInt32;
+       Arg  : UInt32;
+       Resp : access UInt32_Array)
+       return Integer
+   with Export, Convention => C, External_Name => "cyw43_sdio_transfer";
+
+   function SDIO_Transfer_Cmd53
+      (Write      : Interfaces.C.int;
+       Block_Size : UInt32;
+       Arg        : UInt32;
+       Len        : Interfaces.C.size_t;
+       Buf        : UInt8_Array)
+       return Integer
+   with Export, Convention => C, External_Name => "cyw43_sdio_transfer_cmd53";
+
+   function Storage_Read_Blocks
+      (Dest       : access UInt8_Array;
+       Block_Num  : UInt32;
+       Num_Blocks : UInt32)
+       return UInt32
+   with Export, Convention => C, External_Name => "storage_read_blocks";
+
+   type Pbuf is null record;
+
+   function Pbuf_Copy_Partial
+      (P       : access constant Pbuf;
+       Dataptr : System.Address;
+       Len     : UInt16;
+       Offset  : UInt16)
+       return UInt16
+   with Export, Convention => C, External_Name => "pbuf_copy_partial";
+
+   function Read_Reg_U16
+      (Self : System.Address;
+       Fn   : UInt32;
+       Reg  : UInt32)
+       return Integer
+   with Export, Convention => C, External_Name => "cyw43_read_reg_u16";
+
+   function Write_Reg_U16
+      (Self : System.Address;
+       Fn   : UInt32;
+       Reg  : UInt32;
+       Val  : UInt16)
+       return Integer
+   with Export, Convention => C, External_Name => "cyw43_write_reg_u16";
+
+   function Read_Reg_U32_Swap
+      (Self : System.Address;
+       Fn   : UInt32;
+       Reg  : UInt32)
+       return UInt32
+   with Export, Convention => C, External_Name => "read_reg_u32_swap";
+
+   function Write_Reg_U32_Swap
+      (Self : System.Address;
+       Fn   : UInt32;
+       Reg  : UInt32;
+       Val  : UInt32)
+       return Integer
+   with Export, Convention => C, External_Name => "write_reg_u32_swap";
 
 end CYW43;

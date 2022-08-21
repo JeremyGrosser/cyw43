@@ -13,6 +13,22 @@ rp2040_hal = "^1.6.0"
 #type = "pre-build"
 #command = ["pioasm", "-o", "ada", "-p", "GSPI_PIO", "src/gspi.pio", "src/gspi_pio.ads"]
 
+[[actions]]
+type = "pre-build"
+command = [
+    "arm-eabi-objcopy",
+    "-I", "binary",
+    "-O", "elf32-littlearm",
+    "--rename-section", ".data=.rodata,alloc,load,readonly,data,contents",
+    "--redefine-sym", "_binary_third_party_cyw43_driver_firmware_43439A0_7_95_49_00_combined_start=fw_43439A0_7_95_49_00_start",
+    "third_party/cyw43-driver/firmware/43439A0-7.95.49.00.combined",
+    "obj/cyw43-firmware.o"
+]
+
+[[actions]]
+type = "pre-build"
+command = ["arm-eabi-ar", "rs", "lib/libcyw43-firmware.a", "obj/cyw43-firmware.o"]
+
 [[depends-on]]
 ipstack = "~0.1.0"
 

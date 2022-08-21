@@ -29,6 +29,7 @@ project Cyw43 is
       for Default_Switches ("C") use (
       --   "-Wall",
       --   "-I" & Project'Project_Dir & "third_party/cyw43-driver",
+         "-DNDEBUG", --  disable C assertions
          "-g"
       );
    end Compiler;
