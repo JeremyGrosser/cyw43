@@ -6,6 +6,7 @@
 with RP.Flash;
 with GSPI.Registers;
 with AIP;
+with Ada.Text_IO; use Ada.Text_IO;
 
 package body CYW43 is
 
@@ -74,20 +75,46 @@ package body CYW43 is
 
    procedure HAL_Pin_Config
       (Pin, Mode, Pull, Alt : Integer)
-   is null;
+   is
+      use RP.GPIO;
+      P : GPIO_Point := (Pin => GPIO_Pin (Pin));
+   begin
+      P.Configure
+         (Mode => (if Mode = 1 then Input else Output),
+          Pull => (if Pull = 1 then Pull_Up else Floating));
+      Put_Line ("HAL_Pin_Config (Pin=" & Pin'Image & ", Mode=" & Mode'Image & ", Pull=" & Pull'Image & ", Alt=" & Alt'Image & ");");
+   end HAL_Pin_Config;
 
    procedure HAL_Pin_High
       (Pin : Integer)
-   is null;
+   is
+      use RP.GPIO;
+      P : GPIO_Point := (Pin => GPIO_Pin (Pin));
+   begin
+      P.Set;
+      Put_Line ("HAL_Pin_High (Pin=" & Pin'Image & ");");
+   end HAL_Pin_High;
 
    procedure HAL_Pin_Low
       (Pin : Integer)
-   is null;
+   is
+      use RP.GPIO;
+      P : GPIO_Point := (Pin => GPIO_Pin (Pin));
+   begin
+      P.Clear;
+      Put_Line ("HAL_Pin_Low (Pin=" & Pin'Image & ");");
+   end HAL_Pin_Low;
 
    function HAL_Pin_Read
       (Pin : Integer)
       return Integer
-   is (0);
+   is
+      use RP.GPIO;
+      P : constant GPIO_Point := (Pin => GPIO_Pin (Pin));
+   begin
+      Put_Line ("HAL_Pin_Read (Pin=" & Pin'Image & ") = 0");
+      return (if P.Get then 1 else 0);
+   end HAL_Pin_Read;
 
    function HAL_Ticks_Ms
       return UInt32
@@ -150,52 +177,89 @@ package body CYW43 is
 
    procedure Schedule_Internal_Poll_Dispatch
       (Func : Poll_Callback)
-   is null;
+   is
+   begin
+      Put_Line ("Schedule_Internal_Poll_Dispatch");
+   end Schedule_Internal_Poll_Dispatch;
 
    procedure Thread_Enter
-   is null;
+   is
+   begin
+      Put_Line ("Thread_Enter");
+   end Thread_Enter;
 
    procedure Thread_Exit
-   is null;
+   is
+   begin
+      Put_Line ("Thread_Enter");
+   end Thread_Exit;
 
    procedure Thread_Lock_Check
-   is null;
+   is
+   begin
+      Put_Line ("Thread_Lock_Check");
+   end Thread_Lock_Check;
 
    function SPI_Init
       (Self : System.Address)
       return Integer
-   is (-1);
+   is
+   begin
+      Put_Line ("SPI_Init (Self=" & Self'Image & ") = 0");
+      return 0;
+   end SPI_Init;
 
-   procedure SPI_GPIO_Setup is null;
+   procedure SPI_GPIO_Setup is
+   begin
+      Put_Line ("SPI_GPIO_Setup");
+   end SPI_GPIO_Setup;
 
-   procedure SPI_Reset is null;
+   procedure SPI_Reset is
+   begin
+      Put_Line ("SPI_Reset");
+   end SPI_Reset;
 
    procedure SPI_Deinit
       (Self : System.Address)
-   is null;
+   is
+   begin
+      Put_Line ("SPI_Deinit (Self=" & Self'Image & ")");
+   end SPI_Deinit;
 
    function SDIO_Transfer
       (Cmd  : UInt32;
        Arg  : UInt32;
-       Resp : access UInt32_Array)
+       Resp : Any_UInt32_Array)
        return Integer
-   is (-1);
+   is
+   begin
+      Put_Line ("SDIO_Transfer (Cmd=" & Cmd'Image & ", Arg=" & Arg'Image & ", Resp=...) = 0");
+      return 0;
+   end SDIO_Transfer;
 
    function SDIO_Transfer_Cmd53
       (Write      : Interfaces.C.int;
        Block_Size : UInt32;
        Arg        : UInt32;
        Len        : Interfaces.C.size_t;
-       Buf        : UInt8_Array)
+       Buf        : Any_UInt8_Array)
        return Integer
-   is (-1);
+   is
+   begin
+      Put_Line ("SDIO_Transfer_Cmd53 (Write=" & Write'Image & ", Block_Size=" & Block_Size'Image & ", Arg=" & Arg'Image & ", Len=" & Len'Image & ", Buf=...) = 0");
+      return 0;
+   end SDIO_Transfer_Cmd53;
 
    function Storage_Read_Blocks
-      (Dest       : access UInt8_Array;
+      (Dest       : Any_UInt8_Array;
        Block_Num  : UInt32;
        Num_Blocks : UInt32)
        return UInt32
-   is (0);
+   is
+   begin
+      Put_Line ("Storage_Read_Blocks (Dest=... Block_Num=" & Block_Num'Image & ", Num_Blocks=" & Num_Blocks'Image & ") = 0");
+      return 0;
+   end Storage_Read_Blocks;
 
    function Pbuf_Copy_Partial
       (P       : access constant Pbuf;
@@ -203,14 +267,22 @@ package body CYW43 is
        Len     : UInt16;
        Offset  : UInt16)
        return UInt16
-   is (0);
+   is
+   begin
+      Put_Line ("Pbuf_Copy_Partial (P=..., Dataptr=" & Dataptr'Image & ", Len=" & Len'Image & ", Offset=" & Offset'Image & ") = 0");
+      return 0;
+   end Pbuf_Copy_Partial;
 
    function Read_Reg_U16
       (Self : System.Address;
        Fn   : UInt32;
        Reg  : UInt32)
        return Integer
-   is (-1);
+   is
+   begin
+      Put_Line ("Read_Reg_U16 (Self=" & Self'Image & ", Fn=" & Fn'Image & ", Reg=" & Reg'Image & ") = 0");
+      return 0;
+   end Read_Reg_U16;
 
    function Write_Reg_U16
       (Self : System.Address;
@@ -218,14 +290,22 @@ package body CYW43 is
        Reg  : UInt32;
        Val  : UInt16)
        return Integer
-   is (-1);
+   is
+   begin
+      Put_Line ("Write_Reg_U16 (Self=" & Self'Image & ", Fn=" & Fn'Image & ", Reg=" & Reg'Image & ", Val=" & Val'Image & ") = 0");
+      return 0;
+   end Write_Reg_U16;
 
    function Read_Reg_U32_Swap
       (Self : System.Address;
        Fn   : UInt32;
        Reg  : UInt32)
        return UInt32
-   is (0);
+   is
+   begin
+      Put_Line ("Read_Reg_U32_Swap (Self=" & Self'Image & ", Fn=" & Fn'Image & ", Reg=" & Reg'Image & ") = 0");
+      return 0;
+   end Read_Reg_U32_Swap;
 
    function Write_Reg_U32_Swap
       (Self : System.Address;
@@ -233,6 +313,10 @@ package body CYW43 is
        Reg  : UInt32;
        Val  : UInt32)
        return Integer
-   is (-1);
+   is
+   begin
+      Put_Line ("Write_Reg_U32_Swap (Self=" & Self'Image & ", Fn=" & Fn'Image & ", Reg=" & Reg'Image & ", Val=" & Val'Image & ") = 0");
+      return 0;
+   end Write_Reg_U32_Swap;
 
 end CYW43;

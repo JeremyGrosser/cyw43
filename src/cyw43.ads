@@ -7,13 +7,13 @@ with Interfaces.C;
 with HAL; use HAL;
 with System;
 with AIP.NIF;
-with RP.Timer;
+with RP.Timer.Interrupts;
 with RP.GPIO;
 with GSPI;
 
 package CYW43 is
 
-   Delays : RP.Timer.Delays;
+   Delays : RP.Timer.Interrupts.Delays;
    --  Delays is global because the cyw43_delay_ms and cyw43_delay_us don't
    --  have a driver context.
 
@@ -110,10 +110,13 @@ package CYW43 is
       (Self : System.Address)
    with Export, Convention => C, External_Name => "cyw43_spi_deinit";
 
+   type Any_UInt32_Array is access all UInt32_Array;
+   type Any_UInt8_Array is access all UInt8_Array;
+
    function SDIO_Transfer
       (Cmd  : UInt32;
        Arg  : UInt32;
-       Resp : access UInt32_Array)
+       Resp : Any_UInt32_Array)
        return Integer
    with Export, Convention => C, External_Name => "cyw43_sdio_transfer";
 
@@ -122,12 +125,12 @@ package CYW43 is
        Block_Size : UInt32;
        Arg        : UInt32;
        Len        : Interfaces.C.size_t;
-       Buf        : UInt8_Array)
+       Buf        : Any_UInt8_Array)
        return Integer
    with Export, Convention => C, External_Name => "cyw43_sdio_transfer_cmd53";
 
    function Storage_Read_Blocks
-      (Dest       : access UInt8_Array;
+      (Dest       : Any_UInt8_Array;
        Block_Num  : UInt32;
        Num_Blocks : UInt32)
        return UInt32

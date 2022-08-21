@@ -5,7 +5,7 @@
 --
 with Ada.Unchecked_Conversion;
 with HAL; use HAL;
-with RP.Timer;
+with RP.Timer.Interrupts;
 with RP.GPIO;
 with RP.PIO;
 with RP.DMA;
@@ -19,7 +19,7 @@ package GSPI is
        CLK     : not null access RP.GPIO.GPIO_Point;
        DAT     : not null access RP.GPIO.GPIO_Point;
        CS      : not null access RP.GPIO.GPIO_Point;
-       Delays  : not null access RP.Timer.Delays;
+       Delays  : not null access RP.Timer.Interrupts.Delays;
        Channel : RP.DMA.DMA_Channel_Id)
    is tagged private;
 
@@ -47,7 +47,7 @@ private
        CLK     : not null access RP.GPIO.GPIO_Point;
        DAT     : not null access RP.GPIO.GPIO_Point;
        CS      : not null access RP.GPIO.GPIO_Point;
-       Delays  : not null access RP.Timer.Delays;
+       Delays  : not null access RP.Timer.Interrupts.Delays;
        Channel : RP.DMA.DMA_Channel_Id)
    is tagged record
       Config : RP.PIO.PIO_SM_Config;

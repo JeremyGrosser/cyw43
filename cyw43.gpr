@@ -23,7 +23,9 @@ project Cyw43 is
 
    package Compiler is
       for Default_Switches ("Ada") use Cyw43_Config.Ada_Compiler_Switches & (
-         "-gnatyM120"
+         "-gnatyM120",
+         "-gnatwJ",
+         "-gnat2022"
       );
 
       for Default_Switches ("C") use (
