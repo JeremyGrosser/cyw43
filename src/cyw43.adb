@@ -82,7 +82,12 @@ package body CYW43 is
       P.Configure
          (Mode => (if Mode = 1 then Input else Output),
           Pull => (if Pull = 1 then Pull_Up else Floating));
-      Put_Line ("HAL_Pin_Config (Pin=" & Pin'Image & ", Mode=" & Mode'Image & ", Pull=" & Pull'Image & ", Alt=" & Alt'Image & ");");
+      Put_Line ("HAL_Pin_Config" &
+      " (Pin=" & Pin'Image &
+      ", Mode=" & Mode'Image &
+      ", Pull=" & Pull'Image &
+      ", Alt=" & Alt'Image &
+      ");");
    end HAL_Pin_Config;
 
    procedure HAL_Pin_High
@@ -229,11 +234,14 @@ package body CYW43 is
    function SDIO_Transfer
       (Cmd  : UInt32;
        Arg  : UInt32;
-       Resp : Any_UInt32_Array)
+       Resp : access UInt32_Array)
        return Integer
    is
    begin
-      Put_Line ("SDIO_Transfer (Cmd=" & Cmd'Image & ", Arg=" & Arg'Image & ", Resp=...) = 0");
+      Put_Line ("SDIO_Transfer" &
+      " (Cmd=" & Cmd'Image &
+      ", Arg=" & Arg'Image &
+      ", Resp=...) = 0");
       return 0;
    end SDIO_Transfer;
 
@@ -242,22 +250,30 @@ package body CYW43 is
        Block_Size : UInt32;
        Arg        : UInt32;
        Len        : Interfaces.C.size_t;
-       Buf        : Any_UInt8_Array)
+       Buf        : access UInt8_Array)
        return Integer
    is
    begin
-      Put_Line ("SDIO_Transfer_Cmd53 (Write=" & Write'Image & ", Block_Size=" & Block_Size'Image & ", Arg=" & Arg'Image & ", Len=" & Len'Image & ", Buf=...) = 0");
+      Put_Line ("SDIO_Transfer_Cmd53" &
+      " (Write=" & Write'Image &
+      ", Block_Size=" & Block_Size'Image &
+      ", Arg=" & Arg'Image &
+      ", Len=" & Len'Image &
+      ", Buf=...) = 0");
       return 0;
    end SDIO_Transfer_Cmd53;
 
    function Storage_Read_Blocks
-      (Dest       : Any_UInt8_Array;
+      (Dest       : access UInt8_Array;
        Block_Num  : UInt32;
        Num_Blocks : UInt32)
        return UInt32
    is
    begin
-      Put_Line ("Storage_Read_Blocks (Dest=... Block_Num=" & Block_Num'Image & ", Num_Blocks=" & Num_Blocks'Image & ") = 0");
+      Put_Line ("Storage_Read_Blocks" &
+      " (Dest=... Block_Num=" & Block_Num'Image &
+      ", Num_Blocks=" & Num_Blocks'Image &
+      ") = 0");
       return 0;
    end Storage_Read_Blocks;
 
@@ -269,7 +285,11 @@ package body CYW43 is
        return UInt16
    is
    begin
-      Put_Line ("Pbuf_Copy_Partial (P=..., Dataptr=" & Dataptr'Image & ", Len=" & Len'Image & ", Offset=" & Offset'Image & ") = 0");
+      Put_Line ("Pbuf_Copy_Partial" &
+      " (P=..., Dataptr=" & Dataptr'Image &
+      ", Len=" & Len'Image &
+      ", Offset=" & Offset'Image &
+      ") = 0");
       return 0;
    end Pbuf_Copy_Partial;
 
@@ -280,7 +300,11 @@ package body CYW43 is
        return Integer
    is
    begin
-      Put_Line ("Read_Reg_U16 (Self=" & Self'Image & ", Fn=" & Fn'Image & ", Reg=" & Reg'Image & ") = 0");
+      Put_Line ("Read_Reg_U16" &
+      " (Self=" & Self'Image &
+      ", Fn=" & Fn'Image &
+      ", Reg=" & Reg'Image &
+      ") = 0");
       return 0;
    end Read_Reg_U16;
 
@@ -292,7 +316,12 @@ package body CYW43 is
        return Integer
    is
    begin
-      Put_Line ("Write_Reg_U16 (Self=" & Self'Image & ", Fn=" & Fn'Image & ", Reg=" & Reg'Image & ", Val=" & Val'Image & ") = 0");
+      Put_Line ("Write_Reg_U16" &
+      " (Self=" & Self'Image &
+      ", Fn=" & Fn'Image &
+      ", Reg=" & Reg'Image &
+      ", Val=" & Val'Image &
+      ") = 0");
       return 0;
    end Write_Reg_U16;
 
@@ -303,7 +332,11 @@ package body CYW43 is
        return UInt32
    is
    begin
-      Put_Line ("Read_Reg_U32_Swap (Self=" & Self'Image & ", Fn=" & Fn'Image & ", Reg=" & Reg'Image & ") = 0");
+      Put_Line ("Read_Reg_U32_Swap" &
+      " (Self=" & Self'Image &
+      ", Fn=" & Fn'Image &
+      ", Reg=" & Reg'Image &
+      ") = 0");
       return 0;
    end Read_Reg_U32_Swap;
 
@@ -315,7 +348,12 @@ package body CYW43 is
        return Integer
    is
    begin
-      Put_Line ("Write_Reg_U32_Swap (Self=" & Self'Image & ", Fn=" & Fn'Image & ", Reg=" & Reg'Image & ", Val=" & Val'Image & ") = 0");
+      Put_Line ("Write_Reg_U32_Swap" &
+      " (Self=" & Self'Image &
+      ", Fn=" & Fn'Image &
+      ", Reg=" & Reg'Image &
+      ", Val=" & Val'Image &
+      ") = 0");
       return 0;
    end Write_Reg_U32_Swap;
 
