@@ -6,12 +6,11 @@ project Cyw43 is
    for Library_Name use "Cyw43";
    for Library_Version use Project'Library_Name & ".so." & Cyw43_Config.Crate_Version;
 
-   for Source_Dirs use
-      ("third_party/cyw43-driver/src",
-       "third_party/cyw43-driver/firmware",
-       "third_party/cyw43-driver",
+   for Source_Dirs use (
        "src/",
-       "config/");
+       "config/"
+   );
+
    for Object_Dir use "obj/" & Cyw43_Config.Build_Profile;
    for Create_Missing_Dirs use "True";
    for Library_Dir use "lib";

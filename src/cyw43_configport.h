@@ -1,60 +1,77 @@
-/*
- * Mostly stolen from pico-sdk, so we'll keep their copyright for now.
- */
+#pragma once
 
-/*
- * Copyright (c) 2022 Raspberry Pi (Trading) Ltd.
- *
- * SPDX-License-Identifier: BSD-3-Clause
- */
-#ifndef CYW43_CONFIGPORT_H
-#define CYW43_CONFIGPORT_H
+#define MIN(a, b) ((b)>(a)?(a):(b))
+#define STATIC static
 
-#include "cyw43_arch.h"
+#define CYW43_EIO 1
+#define CYW43_EINVAL 2
+#define CYW43_ETIMEDOUT 3
+#define CYW43_EPERM 4
 
-#ifndef CYW43_HOST_NAME
-#define CYW43_HOST_NAME "PicoW"
-#endif
+int cyw43_poll_required = 0;
+#define CYW43_SDPCM_SEND_COMMON_WAIT cyw43_poll_required = 1;
+#define CYW43_DO_IOCTL_WAIT cyw43_poll_required = 1;
 
-#ifndef CYW43_GPIO
-#define CYW43_GPIO 1
-#endif
+#define CYW43_THREAD_ENTER
+#define CYW43_THREAD_EXIT
+#define CYW43_THREAD_LOCK_CHECK
 
-#ifndef CYW43_LOGIC_DEBUG
-#define CYW43_LOGIC_DEBUG 0
-#endif
+// get the number of elements in a fixed-size array
+#define count_of(a) (sizeof(a)/sizeof((a)[0]))
+#define CYW43_ARRAY_SIZE(a) count_of(a)
 
-#ifndef CYW43_USE_OTP_MAC
-#define CYW43_USE_OTP_MAC 1
-#endif
+#define cyw43_hal_pin_obj_t uint32_t
 
-#ifndef CYW43_NETUTILS
-#define CYW43_NETUTILS 0
-#endif
+#define CYW43_PIN_WL_REG_ON 1
+#define CYW43_PIN_WL_SDIO_1 2
 
-#ifndef CYW43_IOCTL_TIMEOUT_US
-#define CYW43_IOCTL_TIMEOUT_US 1000000
-#endif
+#define GPIO_OUT 0
+#define GPIO_IN 1
 
-#ifndef CYW43_USE_STATS
-#define CYW43_USE_STATS 0
-#endif
+#define cyw43_delay_ms // todo
+#define cyw43_delay_us // todo
 
-// todo should this be user settable?
-#ifndef CYW43_HAL_MAC_WLAN0
 #define CYW43_HAL_MAC_WLAN0 0
-#endif
 
-#ifndef CYW43_USE_SPI
-#define CYW43_USE_SPI 1
-#endif
+uint32_t cyw43_hal_ticks_us(void) {
+    //return time_us_32();
+    return 0;
+}
 
-#ifndef CYW43_SPI_PIO
-#define CYW43_SPI_PIO 1
-#endif
+uint32_t cyw43_hal_ticks_ms(void) {
+    //return to_ms_since_boot(get_absolute_time());
+    return 0;
+}
 
-#define CYW43_PRINTF (void)0;
+int cyw43_hal_pin_read(cyw43_hal_pin_obj_t pin) {
+    //return gpio_get(pin);
+    return 0;
+}
 
-#define CYW43_LWIP 0
+void cyw43_hal_pin_low(cyw43_hal_pin_obj_t pin) {
+    //gpio_clr_mask(1 << pin);
+}
 
-#endif
+void cyw43_hal_pin_high(cyw43_hal_pin_obj_t pin) {
+    //gpio_set_mask(1 << pin);
+}
+
+#define CYW43_HAL_PIN_MODE_INPUT           (GPIO_IN)
+#define CYW43_HAL_PIN_MODE_OUTPUT          (GPIO_OUT)
+
+#define CYW43_HAL_PIN_PULL_NONE            (0)
+#define CYW43_HAL_PIN_PULL_UP              (1)
+#define CYW43_HAL_PIN_PULL_DOWN            (2)
+
+void cyw43_hal_pin_config(cyw43_hal_pin_obj_t pin, uint32_t mode, uint32_t pull, __unused uint32_t alt) {
+    //assert((mode == CYW43_HAL_PIN_MODE_INPUT || mode == CYW43_HAL_PIN_MODE_OUTPUT) && alt == 0);
+    //gpio_set_dir(pin, mode);
+    //gpio_set_pulls(pin, pull == CYW43_HAL_PIN_PULL_UP, pull == CYW43_HAL_PIN_PULL_DOWN);
+}
+
+void cyw43_hal_get_mac(int idx, uint8_t buf[6]);
+
+void cyw43_hal_generate_laa_mac(int idx, uint8_t buf[6]);
+
+void cyw43_schedule_internal_poll_dispatch(void (*func)(void)) {
+}

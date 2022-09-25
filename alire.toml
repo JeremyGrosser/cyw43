@@ -7,7 +7,7 @@ maintainers = ["Jeremy Grosser <jeremy@synack.me>"]
 maintainers-logins = ["JeremyGrosser"]
 
 [[depends-on]]
-rp2040_hal = "^1.6.0"
+rp2040_hal = "^2.0.0"
 
 #[[actions]]
 #type = "pre-build"
@@ -28,12 +28,3 @@ command = [
 [[actions]]
 type = "pre-build"
 command = ["arm-eabi-ar", "rs", "lib/libcyw43-firmware.a", "obj/cyw43-firmware.o"]
-
-[[depends-on]]
-ipstack = "~0.1.0"
-
-[configuration.values]
-ipstack.Support_Target = "rp2040"
-
-[[pins]]
-ipstack = { url='https://github.com/JeremyGrosser/ipstack.git' }

@@ -3,4 +3,4 @@
 	url = https://github.com/georgerobotics/cyw43-driver
 [submodule "third_party/lwip"]
 	path = third_party/lwip
-	url = https://github.com/lwip-tcpip/lwip.git
+	url = https://git.savannah.gnu.org/git/lwip.git
