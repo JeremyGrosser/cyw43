@@ -6,10 +6,12 @@
 with RP.Timer.Interrupts;
 with GSPI.Registers;
 with HAL; use HAL;
+with cyw43_h;
 
 package body CYW43 is
 
    Delays : RP.Timer.Interrupts.Delays;
+   State  : aliased cyw43_h.cyw43_t;
 
    procedure Initialize
       (This : in out Device)
@@ -54,6 +56,13 @@ package body CYW43 is
       --  Configure the PLL registers
       --  Send firmware blob
 
+      declare
+         procedure cyw43_init
+            (self : access cyw43_h.cyw43_t)
+         with Import, Convention => C, External_Name => "cyw43_init";
+      begin
+         cyw43_init (State'Access);
+      end;
    end Initialize;
 
 end CYW43;
